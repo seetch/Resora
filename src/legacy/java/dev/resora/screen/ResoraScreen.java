@@ -74,7 +74,6 @@ public final class ResoraScreen extends Screen {
 
     @Override
     public void render(GuiGraphics graphics, int mouseX, int mouseY, float partialTick) {
-        renderBackground(graphics, mouseX, mouseY, partialTick);
         int panelWidth = Math.min(268, width - 20);
         int panelLeft = (width - panelWidth) / 2;
         graphics.fill(panelLeft, panelTop, panelLeft + panelWidth, panelTop + 198, PANEL_COLOR);
