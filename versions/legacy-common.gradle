@@ -1,0 +1,65 @@
+def rootProperties = new Properties()
+file('../../gradle.properties').withInputStream { rootProperties.load(it) }
+
+version = "${rootProperties.getProperty('mod_version')}+${project.minecraft_version}"
+group = rootProperties.getProperty('maven_group')
+
+base {
+    archivesName = rootProperties.getProperty('archives_base_name')
+}
+
+loom {
+    splitEnvironmentSourceSets()
+
+    mods {
+        "resora" {
+            sourceSet sourceSets.main
+            sourceSet sourceSets.client
+        }
+    }
+}
+
+sourceSets {
+    main {
+        resources.srcDir file('../../src/main/resources')
+    }
+    client {
+        java.srcDir file('../../src/client/java')
+        java.srcDir file('../../src/legacy/java')
+        if (project.minecraft_version == '1.21.11') {
+            def legacyMixin = file('../../src/legacy/java/dev/resora/mixin/MinecraftMixin.java').canonicalFile
+            java.exclude { details -> details.file.canonicalFile == legacyMixin }
+            java.srcDir file('../../src/legacy-handle/java')
+        }
+        resources.srcDir file('../../src/client/resources')
+    }
+}
+
+dependencies {
+    minecraft "com.mojang:minecraft:${project.minecraft_version}"
+    mappings loom.officialMojangMappings()
+    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+}
+
+processResources {
+    inputs.property 'version', project.version
+    inputs.property 'minecraft_version', project.minecraft_version
+    inputs.property 'java_version', '21'
+    filteringCharset = 'UTF-8'
+
+    filesMatching('fabric.mod.json') {
+        expand 'version': project.version,
+                'minecraft_version': project.minecraft_version,
+                'java_version': '21'
+    }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    it.options.encoding = 'UTF-8'
+    it.options.release = 21
+}
+
+java {
+    toolchain.languageVersion = JavaLanguageVersion.of(21)
+    withSourcesJar()
+}

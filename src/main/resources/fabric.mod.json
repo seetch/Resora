@@ -1,0 +1,25 @@
+{
+	"schemaVersion": 1,
+	"id": "resora",
+	"version": "${version}",
+	"name": "Resora",
+	"description": "Save and organize server resource packs from a compact in-game menu.",
+	"authors": [
+		"seetch"
+	],
+	"license": "CC0-1.0",
+	"environment": "client",
+	"entrypoints": {
+		"client": [
+			"dev.resora.ResoraClient"
+		]
+	},
+	"mixins": [
+		"resora.client.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "${minecraft_version}",
+		"java": ">=${java_version}"
+	}
+}

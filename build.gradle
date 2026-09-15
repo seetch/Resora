@@ -1,0 +1,74 @@
+plugins {
+	id 'net.fabricmc.fabric-loom' version "${loom_version}"
+}
+
+version = "${project.mod_version}+${project.minecraft_version}"
+group = project.maven_group
+
+base {
+	archivesName = project.archives_base_name
+}
+
+layout.buildDirectory = layout.projectDirectory.dir("build/${project.minecraft_version}")
+
+loom {
+	splitEnvironmentSourceSets()
+
+	mods {
+		"resora" {
+			sourceSet sourceSets.main
+			sourceSet sourceSets.client
+		}
+	}
+}
+
+sourceSets {
+	client {
+		java.srcDir 'src/modern/java'
+	}
+}
+
+dependencies {
+	minecraft "com.mojang:minecraft:${project.minecraft_version}"
+	implementation "net.fabricmc:fabric-loader:${project.loader_version}"
+}
+
+processResources {
+	inputs.property "version", project.version
+	inputs.property "minecraft_version", project.minecraft_version
+	inputs.property "java_version", '25'
+	filteringCharset = 'UTF-8'
+
+	filesMatching("fabric.mod.json") {
+		expand "version": project.version,
+				"minecraft_version": project.minecraft_version,
+				"java_version": '25'
+	}
+}
+
+tasks.withType(JavaCompile).configureEach {
+	it.options.encoding = 'UTF-8'
+	it.options.release = 25
+}
+
+java {
+	toolchain.languageVersion = JavaLanguageVersion.of(25)
+	withSourcesJar()
+}
+
+def legacyVersions = ['1.21.4', '1.21.8', '1.21.11']
+def legacyBuildTasks = legacyVersions.collect { minecraftVersion ->
+	tasks.register("buildMinecraft${minecraftVersion.replace('.', '_')}", GradleBuild) {
+		dir = file("versions/${minecraftVersion}")
+		tasks = ['build']
+	}
+}
+
+tasks.register('buildAllVersions', Copy) {
+	dependsOn tasks.named('build'), legacyBuildTasks
+	from("build/${project.minecraft_version}/libs/${project.archives_base_name}-${project.mod_version}+${project.minecraft_version}.jar")
+	legacyVersions.each { minecraftVersion ->
+		from("versions/${minecraftVersion}/build/libs/${project.archives_base_name}-${project.mod_version}+${minecraftVersion}.jar")
+	}
+	into('build/versions')
+}

@@ -1,0 +1,11 @@
+{
+  "resora.screen.title": "Resora",
+  "resora.screen.server": "Сервер: %s",
+  "resora.button.download": "Сохранить текущий ресурспак",
+  "resora.setting.automatic": "Автосохранение: %s",
+  "resora.setting.replace": "Заменять сохранённый: %s",
+  "resora.setting.normalize": "Исправлять ZIP-архив: %s",
+  "resora.state.on": "ВКЛ",
+  "resora.state.off": "ВЫКЛ",
+  "resora.button.done": "Готово"
+}

@@ -1,0 +1,11 @@
+{
+  "required": true,
+  "package": "dev.resora.mixin",
+  "compatibilityLevel": "JAVA_21",
+  "client": [
+    "MinecraftMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "resora.screen.title": "Resora",
+  "resora.screen.server": "Server: %s",
+  "resora.button.download": "Save current resource pack",
+  "resora.setting.automatic": "Automatic saving: %s",
+  "resora.setting.replace": "Replace existing pack: %s",
+  "resora.setting.normalize": "Normalize ZIP archive: %s",
+  "resora.state.on": "ON",
+  "resora.state.off": "OFF",
+  "resora.button.done": "Done"
+}
