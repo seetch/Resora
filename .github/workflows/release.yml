@@ -41,6 +41,10 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
         if: steps.check.outputs.exists == 'false'
 
+      - name: Build 26.2
+        if: steps.check.outputs.exists == 'false'
+        run: sh ./gradlew -Pminecraft_version=26.2 build --no-daemon
+
       - name: Build all versions
         if: steps.check.outputs.exists == 'false'
         run: sh ./gradlew buildAllVersions --no-daemon

@@ -25,6 +25,12 @@ loom {
 sourceSets {
 	client {
 		java.srcDir 'src/modern/java'
+		// 26.3 moved input from GLFW to SDL, so it gets its own mixin
+		if (project.minecraft_version != '26.2') {
+			def glfwMixin = file('src/modern/java/dev/resora/mixin/MinecraftMixin.java').canonicalFile
+			java.exclude { details -> details.file.canonicalFile == glfwMixin }
+			java.srcDir 'src/modern-sdl/java'
+		}
 	}
 }
 
@@ -67,6 +73,7 @@ def legacyBuildTasks = legacyVersions.collect { minecraftVersion ->
 tasks.register('buildAllVersions', Copy) {
 	dependsOn tasks.named('build'), legacyBuildTasks
 	from("build/${project.minecraft_version}/libs/${project.archives_base_name}-${project.mod_version}+${project.minecraft_version}.jar")
+	from("build/26.2/libs/${project.archives_base_name}-${project.mod_version}+26.2.jar")
 	legacyVersions.each { minecraftVersion ->
 		from("versions/${minecraftVersion}/build/libs/${project.archives_base_name}-${project.mod_version}+${minecraftVersion}.jar")
 	}

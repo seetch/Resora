@@ -1,7 +1,7 @@
 <div align="center">
   <h1>Resora</h1>
   <p>Save server resource packs without leaving the game.</p>
-  <p><strong>Fabric · Client-side · Minecraft 1.21.4–26.2</strong></p>
+  <p><strong>Fabric · Client-side · Minecraft 1.21.4–26.3</strong></p>
 </div>
 
 ---
@@ -26,6 +26,7 @@ Resora keeps resource-pack capture simple: join a server, let Minecraft download
 | 1.21.8 | 21+ |
 | 1.21.11 | 21+ |
 | 26.2 | 25+ |
+| 26.3 | 25+ |
 
 ## Installation
 
@@ -67,7 +68,7 @@ Build every supported release:
 ./gradlew buildAllVersions
 ```
 
-The four release JARs are collected in `build/versions/`.
+The five release JARs are collected in `build/versions/`.
 
 Build one version:
 
