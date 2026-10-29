@@ -43,7 +43,7 @@ jobs:
 
       - name: Build all versions
         if: steps.check.outputs.exists == 'false'
-        run: ./gradlew buildAllVersions --no-daemon
+        run: sh ./gradlew buildAllVersions --no-daemon
 
       - name: Create release
         if: steps.check.outputs.exists == 'false'
